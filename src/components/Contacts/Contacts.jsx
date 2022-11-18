@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUser } from 'redux/users/contactsSlice';
-import { selectContacts, selectFilter } from 'redux/users/users-selectors';
+import { selectContacts, selectFilter } from 'redux/users/contacts-selectors';
+import { deleteContact } from 'redux/users/contactsOparations';
 import s from './Contacts.module.scss';
 
 function Contacts() {
@@ -9,22 +9,21 @@ function Contacts() {
   const dispatch = useDispatch();
 
   const filteredContacts = contacts => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+    return contacts.filter(({name}) =>
+      name.toLowerCase().includes(filter.toLowerCase())
     );
   };
   return (
     <>
       <ul>
-        {filteredContacts(contacts).map(({id,name,number}) => (
+        {filteredContacts(contacts).map(({id,name,phone}) => (
           <li className={s['contact-item']} key={id}>
             <span className={s.name}>{name}:</span>
             <div>
-              <span className={s.number}>{number}</span>
+              <span className={s.number}>{phone}</span>
               <button
                 className={s['btn-delete']}
-                id={id}
-                onClick={()=>dispatch(deleteUser(id))}
+                onClick={()=>dispatch(deleteContact(id))}
                 type="button"
               >
                 Delete

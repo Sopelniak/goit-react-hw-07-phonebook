@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from 'redux/users/contactsSlice';
 import { nanoid } from 'nanoid';
-import { selectContacts } from 'redux/users/users-selectors';
+import { selectContacts } from 'redux/users/contacts-selectors';
 import s from './Form.module.scss';
+import { addContact } from 'redux/users/contactsOparations';
 
 const INITIAL_FORM_STATE = {
   name: '',
@@ -15,21 +15,21 @@ function AddContactForm() {
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const addContact = () => {
+  const addNewContact = () => {
     const newContact = {
       name: contact.name,
-      number: contact.number,
+      phone: contact.number,
       id: nanoid(),
     };
 
     if (
       contacts.find(
-        contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+        ({name}) => name.toLowerCase() === newContact.name.toLowerCase()
       )
     ) {
       return alert(`${newContact.name} is already in contacts`);
     } else {
-      dispatch(addUser(newContact));
+      dispatch(addContact(newContact));
     }
   };
 
@@ -39,7 +39,7 @@ function AddContactForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addContact();
+    addNewContact();
     setContact({ name: '', number: '' });
   };
 

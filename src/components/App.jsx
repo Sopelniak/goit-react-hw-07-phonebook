@@ -2,29 +2,18 @@ import { AddContactForm } from './Form/AddContactForm';
 import { Section } from './Section/Section';
 import { Contacts } from './Contacts/Contacts';
 import { Filter } from './Filter/Filter';
-import { useSelector } from 'react-redux';
-import { selectContacts } from 'redux/users/users-selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from 'redux/users/contacts-selectors';
+import { useEffect } from 'react';
+import {fetchContacts} from '../redux/users/contactsOparations'
 
 function App() {
   const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
 
-  // const [contacts, setContacts] = useState([]);
-  // const [filter, setFilter] = useState('');
-
-  // useEffect(() => {
-  //   try {
-  //     const LSContacts = localStorage.getItem('contacts');
-  //     if (LSContacts !== null) {
-  //        setContacts(prev => [...prev, ...JSON.parse(LSContacts)]);
-  //     }
-  //   } catch (error) {
-  //     console.error('Get state error: ', error.message);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
+  useEffect(()=>{
+    dispatch(fetchContacts())
+  },[dispatch])
 
   return (
     <>
